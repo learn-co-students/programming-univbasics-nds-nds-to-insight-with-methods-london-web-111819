@@ -1,53 +1,44 @@
 require 'directors_database'
 require 'pp'
+require 'pry'
 
 # Write a method that, given an NDS creates a new Hash
 # The return value should be like:
 #
 # { directorOne => allTheMoneyTheyMade, ... }
 
-def directors_totals(nds)
+def directors_totals(database)
 
-  i = 0
-  number_of_directors = nds.length
+  list_of_directors_totals = {}
+  director_number = 0
 
-  result = {}
-  gross_movie_income = 0
-
-
-  until i == number_of_directors do
-
-    j = 0
-    number_of_movies = nds[i][:movies].length
-
-    until j == number_of_movies do
-
-      gross_movie_income += nds[i][:movies][j][:worldwide_gross]
-      j += 1
-
-    end
-
-    result[(nds[i][:name])] = gross_movie_income
-    gross_movie_income = 0
-    i += 1
+  until director_number == database.size do
+    director = database[director_number]
+    list_of_directors_totals[director[:name]] = gross_for_director(director)
+    director_number += 1
   end
 
-  p result
 
 
-  # what was already written is just underneath
-  #result = {}
-  #nil
-
+  return list_of_directors_totals
 
 end
 
 # Find a way to accumulate the :worldwide_grosses and return that Integer
 # using director_data as input
-def gross_for_director(director_data)
+def gross_for_director(database)
 
+#search the information of the director give.
+#then for each movie find the :worldwide_grosses and add that to the current total gross
 
- p directors_totals(directors_database)[director_data[:name]]
+  total_gross = 0
+  i = 0
 
+  until i == database[:movies].length do
+    total_gross += database[:movies][i][:worldwide_gross]
+    i += 1
+  end
+
+  total_gross
 
 end
