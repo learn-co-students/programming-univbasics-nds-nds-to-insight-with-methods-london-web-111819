@@ -1,16 +1,17 @@
+  
+r$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'directors_database'
-
-# Write a method that, given an NDS creates a new Hash
-# The return value should be like:
-#
-# { directorOne => allTheMoneyTheyMade, ... }
+require 'pry'
 
 def directors_totals(nds)
-  result = {}
-  nil
-end
-
-# Find a way to accumulate the :worldwide_grosses and return that Integer
-# using director_data as input
-def gross_for_director(director_data)
+  
+  hash_names_totals = {}
+  directors_database.each do |director|
+    total = 0 
+    director[:movies].each do |movie|
+      total +=  movie[:worldwide_gross]
+    end
+   hash_names_totals[director[:name]] = total
+  end
+ hash_names_totals
 end
